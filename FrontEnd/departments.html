@@ -1,0 +1,11 @@
+<body>
+    {{range .}}
+        <a href="/employees/{{ .FirstName }}_{{ .LastName }}">{{ .FirstName }} {{ .LastName }}</a>: 
+        {{ .Department }}, {{ .JobTitle }} - 
+        {{if .IsSalaried }}
+            ${{ .Compensation }}/year.<br>
+        {{else}}
+            ${{ .Compensation }}/hour.<br>
+        {{end}}
+    {{end}}
+</body>

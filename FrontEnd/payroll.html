@@ -1,0 +1,13 @@
+<head>
+    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+</head>
+<body>
+    Weekly Expense Report<br><br>
+    =====================================
+    <br><br>
+    {{range .}}
+    Department: {{ .Name }}<br>
+    # of Employees: {{ .Count }}<br>
+    Compensation: ${{ .SumString }}<br><br>
+    {{end}}
+</body>

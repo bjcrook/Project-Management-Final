@@ -1,0 +1,30 @@
+<head>
+    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+</head>
+<body>
+    <a href="/delete/{{ .FirstName }}_{{ .LastName }}/">Delete Employee</a>
+    <br><br>
+    First Name: {{ .FirstName }}
+    <br><br>
+    Last Name: {{ .LastName }}
+    <br><br>
+    Date Of Birth: {{ .DateOfBirth }}
+    <br><br>
+    Hire Date: {{ .HireDate }}
+    <br><br>
+
+    <form action="/update/{{ .FirstName }}_{{ .LastName }}/" method="post">
+        
+        Department: <input type=text name="Department" value="{{ .Department }}" required>
+        <br><br>
+        Job Title: <input type=text name="JobTitle" value="{{ .JobTitle }}" required>
+        <br><br>
+        Salaried: <input type=checkbox name="IsSalaried" {{if .IsSalaried }} checked {{end}}>
+        <br><br>
+        Compensation: <input type=number step="0.01" name="Compensation" value="{{ .Compensation }}" required>
+        <br><br>
+
+        <input type=submit value="Update"></input>
+
+    </form>
+</body>

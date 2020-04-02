@@ -1,0 +1,9 @@
+<head>
+    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+</head>
+<body>
+    {{range .}}
+    <a href="/departments/{{ .Name }}">{{ .Name }}</a>
+    {{end}}
+    <br><br>
+</body>

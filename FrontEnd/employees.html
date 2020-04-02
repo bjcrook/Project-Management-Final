@@ -1,0 +1,20 @@
+<head>
+    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+</head>
+<body>
+    {{if .FirstName}}
+    <a href="/edit/{{ .FirstName }}_{{ .LastName}}">edit</a><br><br>
+        {{ .FirstName }} {{ .LastName }}<br>
+        Date of Birth: {{ .DateOfBirth }}<br>
+        Hire Date: {{ .HireDate }}<br>
+        Department: {{ .Department }}<br>
+        Job Title: {{ .JobTitle }}<br>
+        {{if .IsSalaried }}
+            Compensation: ${{ .Compensation }} a year.<br>
+        {{else}}
+            Compensation: ${{ .Compensation }} per hour.<br>
+        {{end}}
+    {{else}}
+        Employee Not Found
+    {{end}}
+</body>
