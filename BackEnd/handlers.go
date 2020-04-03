@@ -36,14 +36,17 @@ func employeesHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
 	employeeURL := strings.Split(r.URL.String()[len("/employees/"):], "_")
 
+	t, _ := template.ParseFiles("./FrontEnd/employees.html")
+
 	if len(employeeURL) == 2 {
 		data := employeeList(employeeURL[0], employeeURL[1])
-		t, _ := template.ParseFiles("./FrontEnd/employees.html")
-		t.Execute(w, data[0])
-	} else {
-		t, _ := template.ParseFiles("./FrontEnd/employees.html")
-		t.Execute(w, nil)
+		if data != nil {
+			t.Execute(w, data[0])
+			return
+		}
 	}
+
+	t.Execute(w, nil)
 }
 
 func newhireHandler(w http.ResponseWriter, r *http.Request) {
@@ -89,15 +92,17 @@ func newhirePostHandler(w http.ResponseWriter, r *http.Request) {
 func editHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
 	employeeURL := strings.Split(r.URL.String()[len("/edit/"):], "_")
+	t, _ := template.ParseFiles("./FrontEnd/edit.html")
 
 	if len(employeeURL) == 2 {
 		data := employeeList(employeeURL[0], employeeURL[1])
-		t, _ := template.ParseFiles("./FrontEnd/edit.html")
-		t.Execute(w, data[0])
-	} else {
-		t, _ := template.ParseFiles("./FrontEnd/employees.html")
-		t.Execute(w, nil)
+		if data != nil {
+			t.Execute(w, data[0])
+			return
+		}
 	}
+
+	t.Execute(w, nil)
 }
 
 func updateHandler(w http.ResponseWriter, r *http.Request) {

@@ -1,11 +1,24 @@
 <body>
-    {{range .}}
-        <a href="/employees/{{ .FirstName }}_{{ .LastName }}">{{ .FirstName }} {{ .LastName }}</a>: 
-        {{ .Department }}, {{ .JobTitle }} - 
-        {{if .IsSalaried }}
-            ${{ .Compensation }}/year.<br>
-        {{else}}
-            ${{ .Compensation }}/hour.<br>
-        {{end}}
-    {{end}}
+    <table class="employeeTable">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Department</th>
+            <th>Job Title</th>
+            <th>Compensation</th>
+        </tr>
+        {{range .}}
+        <tr data-href="/employees/{{ .FirstName }}_{{ .LastName }}">
+            <td>{{ .FirstName }}</td>
+            <td>{{ .LastName }}</td>
+            <td>{{ .Department }}</td>
+            <td>{{ .JobTitle }}</td>
+            {{if .IsSalaried }}
+                <td data-salary>{{ .Compensation }}</td>
+            {{else}}
+                <td data-hourly>{{ .Compensation }}</td>
+            {{end}}
+            {{end}}
+        </tr>
+    </table>
 </body>

@@ -75,6 +75,10 @@ func employeeList(employee ...string) []employeeStuct {
 		}
 	}
 
+	if len(data) == 0 {
+		return nil
+	}
+
 	return data
 }
 

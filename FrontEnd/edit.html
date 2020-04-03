@@ -1,7 +1,39 @@
 <head>
-    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: "Fira Code";
+        }
+        .head {
+            margin: auto;
+            width: 100%;
+            text-align: center;
+            padding-top: 12px;
+            border-bottom: 2px solid #181818;
+        }
+        .head a, .head a:visited {
+            font-weight: bold;
+            color: #181818;
+            font-size: 30px;
+            padding: 20px;
+            text-decoration: none;
+        }
+        .head a:hover {
+            color: #e26613;
+        }
+
+        .error {
+            color: #181818;
+            font-size: 35px;
+        }
+    </style>
 </head>
 <body>
+    <div class="head">
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+    </div>
+
+    {{if .FirstName}}
     <a href="/delete/{{ .FirstName }}_{{ .LastName }}/">Delete Employee</a>
     <br><br>
     First Name: {{ .FirstName }}
@@ -27,4 +59,9 @@
         <input type=submit value="Update"></input>
 
     </form>
+    {{else}}
+    <div class="error">
+       404 ERROR => Employee Not Found
+    </div>
+    {{end}}
 </body>

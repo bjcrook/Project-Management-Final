@@ -1,9 +1,117 @@
 <head>
-    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: "Fira Code";
+        }
+        .head {
+            margin: auto;
+            width: 100%;
+            text-align: center;
+            padding-top: 12px;
+            border-bottom: 2px solid #181818;
+        }
+        .head a, .head a:visited {
+            font-weight: bold;
+            color: #181818;
+            font-size: 30px;
+            padding: 20px;
+            text-decoration: none;
+        }
+        .head a:hover {
+            color: #e26613;
+        }
+
+        .filters {
+            font-weight: 500;
+            margin: auto;
+            width: 60%;
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .filters a, .filters a:visited {
+            color: #181818;
+            font-size: 16px;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .filters a:hover {
+            color: #808080;
+        }
+    
+        .employeeTable {
+            margin: auto;
+            width: 60%;
+            border-collapse: collapse;
+        }
+        .employeeTable td, .employeeTable th {
+            border: 2px solid #dddddd;
+            padding: 8px;
+        }
+        .employeeTable td {
+            color: #181818;
+        }
+        .employeeTable tr:nth-child(odd){background-color: #f2f2f2;}
+        .employeeTable tr:hover {
+            background-color: rgba(226, 102, 19, .3);
+            cursor: pointer;
+        }
+        .employeeTable th:hover {
+            cursor: default;
+        }
+        .employeeTable th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #e26613;
+            text-align: left;
+            color: white;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("tr[data-href]");
+            rows.forEach(row => {
+                row.addEventListener("click", () => {
+                    window.location.href = row.dataset.href;
+                });
+            });
+        });
+
+        const salary = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        });
+
+        const hourly = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("td[data-salary]");
+            rows.forEach(row => {
+                row.textContent = salary.format(row.textContent) + " / year";
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("td[data-hourly]");
+            rows.forEach(row => {
+                row.textContent = hourly.format(row.textContent) + " / hour";
+            });
+        });
+    </script>
 </head>
 <body>
-    {{range .}}
-    <a href="/departments/{{ .Name }}">{{ .Name }}</a>
-    {{end}}
-    <br><br>
+    <div class="head">
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+    </div>
+    <div class="filters">
+        {{range .}}
+        <a href="/departments/{{ .Name }}">{{ .Name }}</a>
+        {{end}}
+    </div>
 </body>
