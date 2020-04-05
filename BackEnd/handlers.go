@@ -13,8 +13,6 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func departmentsHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -38,8 +36,6 @@ func departmentsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func employeesHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -61,8 +57,6 @@ func employeesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func newhireHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -73,8 +67,6 @@ func newhireHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func newhirePostHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -112,8 +104,6 @@ func newhirePostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -134,8 +124,6 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -177,8 +165,6 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -214,8 +200,6 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func payrollHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if !loggedIn {
 		http.Redirect(w, r, "/login/", http.StatusSeeOther)
 		return
@@ -228,11 +212,9 @@ func payrollHandler(w http.ResponseWriter, r *http.Request) {
 		if data[i].IsSalaried {
 			data[i].Sum /= 52
 			data[i].SumString = fmt.Sprintf("%.2f", data[i].Sum)
-			data[i].Name = data[i].Name + " Salaried"
 		} else {
 			data[i].Sum *= 40
 			data[i].SumString = fmt.Sprintf("%.2f", data[i].Sum)
-			data[i].Name = data[i].Name + " Hourly"
 		}
 		grandTotal.Total += data[i].Sum
 	}
@@ -246,8 +228,6 @@ func payrollHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	if loggedIn {
 		http.Redirect(w, r, "/departments/", http.StatusSeeOther)
 		return
@@ -258,8 +238,6 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func loginPostHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	temp := loginStruct{
 		Pw:    r.FormValue("Pw"),
 		Users: r.FormValue("Database"),
@@ -271,8 +249,6 @@ func loginPostHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("We got a request on", r.URL.String())
-
 	loggedIn = false
 
 	http.Redirect(w, r, "/login/", http.StatusSeeOther)

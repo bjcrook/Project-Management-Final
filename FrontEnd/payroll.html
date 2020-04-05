@@ -34,6 +34,9 @@
             border-collapse: collapse;
             table-layout: fixed;
         }
+        .payrollTable th:hover, .payrollTable td:hover {
+            cursor: pointer;
+        }
         .payrollTable td, .payrollTable th {
             cursor: default;
             border: 2px solid #dddddd;
@@ -58,10 +61,19 @@
         }
     </style>
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("[data-href]");
+            rows.forEach(row => {
+                row.addEventListener("click", () => {
+                    window.location.href = row.dataset.href;
+                });
+            });
+        });
+
         const salary = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
-            minimumFractionDigits: 0
+            minimumFractionDigits: 2
         });
 
         const hourly = new Intl.NumberFormat('en-US', {
@@ -96,10 +108,15 @@
     </div>
 
     {{range .}}
-    <table class="payrollTable">
+    <table data-href="/departments/{{ .Name}}" class="payrollTable">
         <tr>
+            {{if .IsSalaried}}
             <th>Department</th>
-            <td>{{ .Name }}</td>
+            <td>{{ .Name }}  (Salary)</td>
+            {{else}}
+            <th>Department</th>
+            <td>{{ .Name }}  (Hourly)</td>
+            {{end}}
         </tr>
         <tr>
             <th>Number of Employees</th>
