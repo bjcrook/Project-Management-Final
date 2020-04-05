@@ -21,19 +21,95 @@
         .head a:hover {
             color: #e26613;
         }
+        #logout {
+            color: #e26613;
+        }
+        #logout:hover {
+            color: #bbbbbb;
+        }
+
+        .payrollTable {
+            margin: auto;
+            width: 60%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        .payrollTable td, .payrollTable th {
+            cursor: default;
+            border: 2px solid #dddddd;
+            padding: 8px;
+        }
+        .payrollTable td {
+            color: #181818;
+        }
+        .payrollTable th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        .headerFooter {
+            font-weight: 500;
+            margin: auto;
+            width: 60%;
+            text-align: center;
+            padding-top: 20px;
+        }
     </style>
+    <script>
+        const salary = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        });
+
+        const hourly = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("td[data-week]");
+            rows.forEach(row => {
+                row.textContent = salary.format(row.textContent);
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("div[data-week]");
+            rows.forEach(row => {
+                row.textContent = "Weekly Total: " + salary.format(row.textContent);
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="head">
-        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a>
+        <a id="logout" href="/logout/">Logout</a><br><br>
     </div>
 
-    Weekly Expense Report<br><br>
-    =====================================
-    <br><br>
+    <div class="headerFooter">
+        Weekly Expense Report<br><br>
+    </div>
+
     {{range .}}
-    Department: {{ .Name }}<br>
-    # of Employees: {{ .Count }}<br>
-    Compensation: ${{ .SumString }}<br><br>
+    <table class="payrollTable">
+        <tr>
+            <th>Department</th>
+            <td>{{ .Name }}</td>
+        </tr>
+        <tr>
+            <th>Number of Employees</th>
+            <td>{{ .Count }}</td>
+        </tr>
+        <tr>
+            <th>Compensation</th>
+            <td data-week>{{ .SumString }}</td>
+        </tr>
+    </table>
+    <br>
     {{end}}
 </body>

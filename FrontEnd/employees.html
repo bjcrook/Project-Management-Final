@@ -21,30 +21,124 @@
         .head a:hover {
             color: #e26613;
         }
+        #logout {
+            color: #e26613;
+        }
+        #logout:hover {
+            color: #bbbbbb;
+        }
+
+        .employeeTable {
+            margin: auto;
+            width: 40%;
+            border-collapse: collapse;
+        }
+        .employeeTable td, .employeeTable th {
+            cursor: default;
+            border: 2px solid #dddddd;
+            padding: 8px;
+        }
+        .employeeTable td {
+            color: #181818;
+        }
+        .employeeTable th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        .editLink {
+            font-weight: 500;
+            margin: auto;
+            width: 60%;
+            text-align: center;
+            padding-top: 20px;
+        }
+        .editLink a, .editLink a:visited {
+            color: #181818;
+            font-size: 16px;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .editLink a:hover {
+            color: #808080;
+        }
 
         .error {
             color: #181818;
             font-size: 35px;
         }
     </style>
+    <script>
+        const salary = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0
+        });
+
+        const hourly = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("td[data-salary]");
+            rows.forEach(row => {
+                row.textContent = salary.format(row.textContent) + " / year";
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const rows = document.querySelectorAll("td[data-hourly]");
+            rows.forEach(row => {
+                row.textContent = hourly.format(row.textContent) + " / hour";
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="head">
-        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a>
+        <a id="logout" href="/logout/">Logout</a><br><br>
     </div>
 
     {{if .FirstName}}
-    <a href="/edit/{{ .FirstName }}_{{ .LastName}}">edit</a><br><br>
-        {{ .FirstName }} {{ .LastName }}<br>
-        Date of Birth: {{ .DateOfBirth }}<br>
-        Hire Date: {{ .HireDate }}<br>
-        Department: {{ .Department }}<br>
-        Job Title: {{ .JobTitle }}<br>
-        {{if .IsSalaried }}
-            Compensation: ${{ .Compensation }} a year.<br>
-        {{else}}
-            Compensation: ${{ .Compensation }} per hour.<br>
-        {{end}}
+    <div class="editLink">
+        <a href="/edit/{{ .FirstName }}_{{ .LastName}}">Edit Employee</a><br><br>
+    </div>
+    {{end}}
+    {{if .FirstName}}
+    <table class="employeeTable">
+        <tr>
+            <th>Name</th>
+            <td>{{ .FirstName }} {{ .LastName }}</td>
+        </tr>
+        <tr>
+            <th>Date of Birth</th>
+            <td>{{ .DateOfBirth }}</td>
+        </tr>
+        <tr>
+            <th>Hire Date</th>
+            <td>{{ .HireDate }}</td>
+        </tr>
+        <tr>
+            <th>Department</th>
+            <td>{{ .Department }}</td>
+        </tr>
+        <tr>
+            <th>Job Title</th>
+            <td>{{ .JobTitle }}</td>
+        </tr>
+        <tr>
+            <th>Compensation</th>
+            {{if .IsSalaried }}
+            <td data-salary>{{ .Compensation }}</td>
+            {{else}}
+            <td data-hourly>{{ .Compensation }}</td>
+            {{end}}
+        </tr>
     {{else}}
     <div class="error">
         404 ERROR => Employee Not Found

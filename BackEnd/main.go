@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	openConnection()
-	createTable()
+	// openConnection()
+	// createTable()
 	http.HandleFunc("/departments/", departmentsHandler)
 	http.HandleFunc("/employees/", employeesHandler)
 	http.HandleFunc("/newhire/", newhireHandler)
@@ -17,6 +17,9 @@ func main() {
 	http.HandleFunc("/update/", updateHandler)
 	http.HandleFunc("/delete/", deleteHandler)
 	http.HandleFunc("/payroll/", payrollHandler)
+	http.HandleFunc("/login/", loginHandler)
+	http.HandleFunc("/login/post/", loginPostHandler)
+	http.HandleFunc("/logout/", logoutHandler)
 	http.HandleFunc("/", defaultHandler)
 	fmt.Println("Starting server on port 8080")
 	http.ListenAndServe(":8080", nil)

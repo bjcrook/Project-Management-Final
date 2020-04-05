@@ -33,6 +33,11 @@ type addEmployeeStruct struct {
 }
 
 type passwordStruct struct {
-	Pw       string
-	Database string
+	Pw    string
+	Users []string
+}
+
+type loginStruct struct {
+	Pw    string
+	Users string
 }

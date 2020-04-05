@@ -11,8 +11,9 @@ import (
 )
 
 var db *sql.DB
+var loggedIn bool
 
-func openConnection() {
+func openConnection(temp loginStruct) bool {
 	var pw passwordStruct
 
 	jsonFile, err := os.Open("./passwords/password.json")
@@ -23,11 +24,21 @@ func openConnection() {
 
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 
+	jsonFile.Close()
+
 	err = json.Unmarshal(byteValue, &pw)
 
-	db, _ = sql.Open("mysql", "root:"+pw.Pw+"@/"+pw.Database)
+	for _, user := range pw.Users {
+		if temp.Users == user {
+			if temp.Pw == pw.Pw {
+				db, _ = sql.Open("mysql", "root:"+pw.Pw+"@/test_server")
+				createTable()
+				return true
+			}
+		}
+	}
 
-	jsonFile.Close()
+	return false
 }
 
 func createTable() {
@@ -126,11 +137,24 @@ func addEmployee(employee employeeStuct) addEmployeeStruct {
 	return success
 }
 
-func deleteEmployee(data []string) {
+func deleteEmployee(data []string) bool {
+	if len(data) == 2 {
+		temp := employeeList(data[0], data[1])
+
+		if temp == nil {
+			return false
+		}
+
+	} else {
+		return false
+	}
+
 	_, err := db.Query("DELETE FROM Employee_T WHERE First_Name=\"" + data[0] + "\" AND Last_Name=\"" + data[1] + "\"")
 	if err != nil {
 		panic(err.Error())
 	}
+
+	return true
 }
 
 func updateEmployee(name []string, data employeeStuct) {
@@ -175,5 +199,6 @@ func payrollList() []summaryStruct {
 
 func closeConnection() int {
 	db.Close()
+	loggedIn = false
 	return 0
 }

@@ -21,6 +21,12 @@
         .head a:hover {
             color: #e26613;
         }
+        #logout {
+            color: #e26613;
+        }
+        #logout:hover {
+            color: #bbbbbb;
+        }
 
         .filters {
             font-weight: 500;
@@ -107,7 +113,8 @@
 </head>
 <body>
     <div class="head">
-        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a>
+        <a id="logout" href="/logout/">Logout</a><br><br>
     </div>
     <div class="filters">
         {{range .}}

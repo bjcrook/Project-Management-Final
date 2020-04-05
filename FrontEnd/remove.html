@@ -1,6 +1,46 @@
 <head>
-    <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: "Fira Code";
+        }
+        .head {
+            margin: auto;
+            width: 100%;
+            text-align: center;
+            padding-top: 12px;
+            border-bottom: 2px solid #181818;
+        }
+        .head a, .head a:visited {
+            font-weight: bold;
+            color: #181818;
+            font-size: 30px;
+            padding: 20px;
+            text-decoration: none;
+        }
+        .head a:hover {
+            color: #e26613;
+        }
+        #logout {
+            color: #e26613;
+        }
+        #logout:hover {
+            color: #bbbbbb;
+        }
+
+        .footer {
+            color: #181818;
+            font-size: 35px;
+        }    
+    </style>
+
 </head>
 <body>
-    Employee {{ .FirstName }} {{ .LastName }} successfully removed.
+    <div class="head">
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a>
+        <a id="logout" href="/logout/">Logout</a><br><br>
+    </div>
+    <div class="footer">
+        Employee {{ .FirstName }} {{ .LastName }} successfully removed.
+    </div>
 </body>

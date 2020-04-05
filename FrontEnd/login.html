@@ -1,0 +1,88 @@
+<head>
+    <style>
+        body {
+            background-color: #ffffff;
+            font-family: "Fira Code";
+        }
+        .form {
+            border-radius: 5px;
+            margin: auto;
+            width: 30%;
+            padding-top: 10px;
+            padding-bottom: 35px;
+            padding-left: 35px;
+            padding-right: 35px;
+            background-color: #f2f2f2;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            resize: both;
+        }
+        .form input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .form input[type=password], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .form input[type="submit"], select {
+            padding: 15px 32px;
+            border: none;
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 12 auto;
+            background-color: #e26613;
+        }
+        .form input[type="submit"]:hover {
+            background-color: #181818;
+        }
+        .form p{
+            font-size: 35px;
+            text-align: center;
+        }
+        .form input[type="text"]:focus {
+            color: #ffffff;
+            font-weight: bold;
+            background-color: rgba(226, 102, 19, 1);
+        }
+        .form input[type="password"]:focus {
+            color: #ffffff;
+            font-weight: bold;
+            background-color: rgba(226, 102, 19, 1);
+        }
+    </style>
+</head>
+<bod>
+    <div class="form">
+        <form action="/login/post/" method="post">
+            <p>
+                Login
+            </p>
+
+            Username<input type=text name="Database" required>
+            <br>
+            Password<input type=password name="Pw" required>
+            <br>
+            
+            <input type=submit value="Login"></input>
+        </form>
+    </div>
+</bod>

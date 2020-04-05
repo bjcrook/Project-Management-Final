@@ -9,11 +9,16 @@ import (
 )
 
 func defaultHandler(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "/departments/", http.StatusSeeOther)
+	http.Redirect(w, r, "/login/", http.StatusSeeOther)
 }
 
 func departmentsHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
+
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
 
 	var data []employeeStuct
 
@@ -34,6 +39,12 @@ func departmentsHandler(w http.ResponseWriter, r *http.Request) {
 
 func employeesHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
+
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
+
 	employeeURL := strings.Split(r.URL.String()[len("/employees/"):], "_")
 
 	t, _ := template.ParseFiles("./FrontEnd/employees.html")
@@ -52,12 +63,23 @@ func employeesHandler(w http.ResponseWriter, r *http.Request) {
 func newhireHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
 
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
+
 	t, _ := template.ParseFiles("./FrontEnd/newhire.html")
 	t.Execute(w, nil)
 }
 
 func newhirePostHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
+
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
+
 	var isSalaried bool
 
 	checked := r.FormValue("IsSalaried")
@@ -91,6 +113,12 @@ func newhirePostHandler(w http.ResponseWriter, r *http.Request) {
 
 func editHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
+
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
+
 	employeeURL := strings.Split(r.URL.String()[len("/edit/"):], "_")
 	t, _ := template.ParseFiles("./FrontEnd/edit.html")
 
@@ -107,6 +135,12 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 
 func updateHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
+
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
+
 	employeeURL := strings.Split(r.URL.String()[len("/update/"):], "_")
 
 	employeeURL[1] = strings.ReplaceAll(employeeURL[1], "/", "")
@@ -145,9 +179,20 @@ func updateHandler(w http.ResponseWriter, r *http.Request) {
 func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
 
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
+
 	employeeURL := strings.Split(r.URL.String()[len("/update/"):], "_")
 
-	employeeURL[1] = strings.ReplaceAll(employeeURL[1], "/", "")
+	if len(employeeURL) == 2 {
+		employeeURL[1] = strings.ReplaceAll(employeeURL[1], "/", "")
+	} else {
+		t, _ := template.ParseFiles("./FrontEnd/employees.html")
+		t.Execute(w, nil)
+		return
+	}
 
 	temp := employeeStuct{
 		FirstName: employeeURL[0],
@@ -155,17 +200,26 @@ func deleteHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(employeeURL) == 2 {
-		deleteEmployee(employeeURL)
-		t, _ := template.ParseFiles("./FrontEnd/remove.html")
-		t.Execute(w, temp)
-	} else {
-		t, _ := template.ParseFiles("./FrontEnd/employees.html")
-		t.Execute(w, nil)
+		data := deleteEmployee(employeeURL)
+
+		if data {
+			t, _ := template.ParseFiles("./FrontEnd/remove.html")
+			t.Execute(w, temp)
+			return
+		}
 	}
+
+	t, _ := template.ParseFiles("./FrontEnd/employees.html")
+	t.Execute(w, nil)
 }
 
 func payrollHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a request on", r.URL.String())
+
+	if !loggedIn {
+		http.Redirect(w, r, "/login/", http.StatusSeeOther)
+		return
+	}
 
 	var grandTotal grandTotalStruct
 	data := payrollList()
@@ -189,4 +243,37 @@ func payrollHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, data)
 	t, _ = template.ParseFiles("./FrontEnd/payroll_foot.html")
 	t.Execute(w, grandTotal)
+}
+
+func loginHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("We got a request on", r.URL.String())
+
+	if loggedIn {
+		http.Redirect(w, r, "/departments/", http.StatusSeeOther)
+		return
+	}
+
+	t, _ := template.ParseFiles("./FrontEnd/login.html")
+	t.Execute(w, nil)
+}
+
+func loginPostHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("We got a request on", r.URL.String())
+
+	temp := loginStruct{
+		Pw:    r.FormValue("Pw"),
+		Users: r.FormValue("Database"),
+	}
+
+	loggedIn = openConnection(temp)
+
+	http.Redirect(w, r, "/login/", http.StatusSeeOther)
+}
+
+func logoutHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("We got a request on", r.URL.String())
+
+	loggedIn = false
+
+	http.Redirect(w, r, "/login/", http.StatusSeeOther)
 }

@@ -21,7 +21,164 @@
         .head a:hover {
             color: #e26613;
         }
+        #logout {
+            color: #e26613;
+        }
+        #logout:hover {
+            color: #bbbbbb;
+        }
 
+        .employeeTable {
+            margin: auto;
+            width: 40%;
+            border-collapse: collapse;
+        }
+        .employeeTable td, .employeeTable th {
+            cursor: default;
+            border: 2px solid #dddddd;
+            padding: 8px;
+        }
+        .employeeTable td {
+            color: #181818;
+        }
+        .employeeTable th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            background-color: #f2f2f2;
+            text-align: left;
+        }
+
+        .employeeForm {
+            border-radius: 5px;
+            margin: auto;
+            width: 30%;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        .employeeForm input[type=text], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .employeeForm input[type="date"], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .employeeForm input[type="number"], select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .employeeForm input[type="submit"], select {
+            padding: 15px 32px;
+            border: none;
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 12 auto;
+            background-color: #e26613;
+        }
+        .employeeForm input[type="submit"]:hover {
+            background-color: #181818;
+        }
+        .employeeForm input[type="text"]:focus {
+            color: #ffffff;
+            font-weight: bold;
+            background-color: rgba(226, 102, 19, 1);
+        }
+        .employeeForm input[type="number"]:focus {
+            color: #ffffff;
+            font-weight: bold;
+            background-color: rgba(226, 102, 19, 1);
+        }
+
+        .container {
+            display: block;
+            position: relative;
+            padding-left: 35px;
+            padding-top: 13px;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 10;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #ffffff;
+        }
+        .container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+        .container input:checked ~ .checkmark {
+            background-color: #e26613;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .deleteLink {
+            font-weight: 500;
+            margin: auto;
+            width: 60%;
+            text-align: center;
+            padding-top: 20px;
+        }
+        .deleteLink a, .deleteLink a:visited {
+            color: #181818;
+            font-size: 16px;
+            padding: 10px;
+            text-decoration: none;
+        }
+        .deleteLink a:hover {
+            color: #808080;
+        }
+        
         .error {
             color: #181818;
             font-size: 35px;
@@ -30,35 +187,57 @@
 </head>
 <body>
     <div class="head">
-        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a><br><br>
+        <a href="/departments/">Departments</a> <a href="/newhire/">Add Employee</a> <a href="/payroll/">Expense Report</a>
+        <a id="logout" href="/logout/">Logout</a><br><br>
     </div>
 
     {{if .FirstName}}
-    <a href="/delete/{{ .FirstName }}_{{ .LastName }}/">Delete Employee</a>
-    <br><br>
-    First Name: {{ .FirstName }}
-    <br><br>
-    Last Name: {{ .LastName }}
-    <br><br>
-    Date Of Birth: {{ .DateOfBirth }}
-    <br><br>
-    Hire Date: {{ .HireDate }}
+    
+    <div class="deleteLink">
+        <a href="/delete/{{ .FirstName }}_{{ .LastName }}/">Delete Employee</a><br><br>
+    </div>
+    {{end}}
+
+    {{if .FirstName}}
+    <table class="employeeTable">
+        <tr>
+            <th>Name</th>
+            <td>{{ .FirstName }} {{ .LastName }}</td>
+        </tr>
+        <tr>
+            <th>Date of Birth</th>
+            <td>{{ .DateOfBirth }}</td>
+        </tr>
+        <tr>
+            <th>Hire Date</th>
+            <td>{{ .HireDate }}</td>
+        </tr>
+    </table>
+
     <br><br>
 
-    <form action="/update/{{ .FirstName }}_{{ .LastName }}/" method="post">
-        
-        Department: <input type=text name="Department" value="{{ .Department }}" required>
-        <br><br>
-        Job Title: <input type=text name="JobTitle" value="{{ .JobTitle }}" required>
-        <br><br>
-        Salaried: <input type=checkbox name="IsSalaried" {{if .IsSalaried }} checked {{end}}>
-        <br><br>
-        Compensation: <input type=number step="0.01" name="Compensation" value="{{ .Compensation }}" required>
-        <br><br>
+    <div class="employeeForm">
+        <form action="/update/{{ .FirstName }}_{{ .LastName }}/" method="post">
+            
+            Department<input type=text name="Department" value="{{ .Department }}" required>
+            <br>
+            Job Title<input type=text name="JobTitle" value="{{ .JobTitle }}" required>
+            <br>
+            <label class="container">Salaried
+                {{if .IsSalaried}}
+                    <input type=checkbox name="IsSalaried" checked>
+                {{else}}
+                    <input type=checkbox name="IsSalaried">
+                {{end}}
+                <span class="checkmark"></span>
+            </label>
+            <br>
+            Compensation<input type=number step="0.01" name="Compensation" value="{{ .Compensation }}" required>
+            <br>
 
-        <input type=submit value="Update"></input>
-
-    </form>
+            <input type=submit value="Confirm Changes"></input>
+        </form>
+    </div>
     {{else}}
     <div class="error">
        404 ERROR => Employee Not Found
