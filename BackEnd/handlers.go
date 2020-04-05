@@ -21,11 +21,48 @@ func departmentsHandler(w http.ResponseWriter, r *http.Request) {
 	var data []employeeStuct
 
 	departmentURL := r.URL.String()[len("/departments/"):]
+	urlExtra := strings.Split(r.URL.String()[len("/departments/"):], "/")
+
+	if urlExtra[0] == "hourly" {
+		data = employeeList("All")
+		departments := getDepartments()
+		t, _ := template.ParseFiles("./FrontEnd/department_header.html")
+		t.Execute(w, departments)
+		t, _ = template.ParseFiles("./FrontEnd/departments_hourly.html")
+		t.Execute(w, data)
+		return
+	} else if urlExtra[0] == "salary" {
+		data = employeeList("All")
+		departments := getDepartments()
+		t, _ := template.ParseFiles("./FrontEnd/department_header.html")
+		t.Execute(w, departments)
+		t, _ = template.ParseFiles("./FrontEnd/departments_salary.html")
+		t.Execute(w, data)
+		return
+	}
 
 	if len(departmentURL) > 0 {
-		data = employeeList(strings.ReplaceAll(departmentURL, "%20", " "))
+		data = employeeList(strings.ReplaceAll(urlExtra[0], "%20", " "))
 	} else {
 		data = employeeList("All")
+	}
+
+	if len(urlExtra) == 2 {
+		if urlExtra[1] == "salary" {
+			departments := getDepartments()
+			t, _ := template.ParseFiles("./FrontEnd/department_header.html")
+			t.Execute(w, departments)
+			t, _ = template.ParseFiles("./FrontEnd/departments_salary.html")
+			t.Execute(w, data)
+			return
+		} else if urlExtra[1] == "hourly" {
+			departments := getDepartments()
+			t, _ := template.ParseFiles("./FrontEnd/department_header.html")
+			t.Execute(w, departments)
+			t, _ = template.ParseFiles("./FrontEnd/departments_hourly.html")
+			t.Execute(w, data)
+			return
+		}
 	}
 
 	departments := getDepartments()

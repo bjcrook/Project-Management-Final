@@ -108,7 +108,11 @@
     </div>
 
     {{range .}}
-    <table data-href="/departments/{{ .Name}}" class="payrollTable">
+    {{if .IsSalaried}}
+    <table data-href="/departments/{{ .Name}}/salary" class="payrollTable">
+    {{else}}
+    <table data-href="/departments/{{ .Name}}/hourly" class="payrollTable">
+    {{end}}
         <tr>
             {{if .IsSalaried}}
             <th>Department</th>

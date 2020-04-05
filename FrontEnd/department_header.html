@@ -45,6 +45,12 @@
         .filters a:hover {
             color: #808080;
         }
+        .filters #moreFilters {
+            color: #e26613;
+        }
+        .filters #moreFilters:hover {
+            color: #808080;
+        }
     
         .employeeTable {
             margin: auto;
@@ -84,6 +90,12 @@
             });
         });
 
+        function getURL(x) {
+            var url = window.location.href.replace("hourly", "")
+            url = url.replace("salary", "")
+            window.location.href = url + "/" + x;
+        }
+
         const salary = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
@@ -120,5 +132,8 @@
         {{range .}}
         <a href="/departments/{{ .Name }}">{{ .Name }}</a>
         {{end}}
+        <a id="moreFilters" href="#" onclick="getURL('hourly');">Hourly</a>
+        <a id="moreFilters" href="#" onclick="getURL('salary');">Salary</a>
+        <a id="moreFilters" href="#" onclick="getURL('');">Both</a>
     </div>
 </body>

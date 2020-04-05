@@ -8,16 +8,14 @@
             <th>Compensation</th>
         </tr>
         {{range .}}
+        {{if not .IsSalaried }}
         <tr data-href="/employees/{{ .FirstName }}_{{ .LastName }}">
             <td>{{ .FirstName }}</td>
             <td>{{ .LastName }}</td>
             <td>{{ .Department }}</td>
-            <td>{{ .JobTitle }}</td>
-            {{if .IsSalaried }}
-                <td data-salary>{{ .Compensation }}</td>
-            {{else}}
-                <td data-hourly>{{ .Compensation }}</td>
-            {{end}}
+            <td>{{ .JobTitle }}</td>  
+            <td data-hourly>{{ .Compensation }}</td>
+        {{end}}
         </tr>
         {{end}}
     </table>
