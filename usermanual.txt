@@ -1,0 +1,85 @@
+******************************************************************************************
+                                          INTRO
+                                  *********************
+> HRMS (Human Resource Management System) is an employee management system
+  that grants staff with login permissions access to employee records.
+> Once logged in, users can: 
+  > View and filter tables of employee data.
+  > View in depth data on a specific employee.
+  > Edit employee data.
+  > Add new employees, and remove old employees.
+  > View weekly expense reports.
+
+
+                                          SETUP
+                                  *********************
+> Clone the github repository https://github.com/bjcrook/Project-Management-Final
+> Before an organization can use HRMS for the first time, they must first set
+  up a mysql database that they can reliably access.
+> The organization will also have to create a password.json file with the list
+  of users, and the login password. The form of the json file is as follows:
+
+    // password.json
+    {
+      "Pw": "{ENTER_PASSWORD_HERE}",
+      "Users": [
+        {USER_ONE},
+        {USER_TWO},
+        {ETC}
+      ]
+    }
+
+> The organization can compile HRMS by running the make.ps1 command in a
+  powershell window. Or, if access to powershell is not possible, users should be
+  able to copy and paste the command inside the make.ps1 file and run it
+  in any terminal.
+> Once compiled, simply run the program by running the server.exe file the
+  powershell script creates.
+
+
+                                     APPLICATION USE
+                                  *********************
+LOGIN
+  > Go to the website where the site is being hosted. You will be redirected to the
+    login page.
+  > Login to the website using the credentials you set up. You will then be directed
+    to the departments page.
+
+DEPARTMENTS
+  > Use the various buttons on the page to dynamically filter the list of employee
+    records.
+  > To view in depth data on a specific employee, hover over and click on their name
+    in the employee list. (For more info on this, view the "EMPLOYEES" section)
+
+ADD EMPLOYEE
+  > Fill out all of the fields on the add employee page, and then click the add
+    employee button to add an employee to the database.
+  > If the salaried check box is checked, the that employee will be considered a
+    salaried employee. If unchecked, that employee will be considered an hourly
+    employee.
+  > If the employee is salaried, the compensation filed represents a yearly salary.
+  > If the employee is hourly, the compensation filed represents an hourly wage.
+  > The primary key is the employees first and last name. Duplicate primary keys
+    will not be added to the database.
+
+EXPENSE REPORT
+  > A weekly expense report is automatically created once you click on this tab.
+  > The report is split into different sections based on both department type,
+    and payment type (salaried or hourly).
+  > Click on a specific section of the expense report to redirected back to the
+    departments tab with the filters of the selected section automatically applied.
+  > View the weekly expense total at the bottom of the page.
+
+EMPLOYEES
+  > This page allows you to view in depth employee data for a specific employee.
+  > Click on the edit button to edit the employees information.
+    > The edit page works the same way as the Add Employee page except you can't
+      change the employees name or their date of birth.
+    > Going to the edit page also allows you to delete the employee from the
+      database. This is permanent and cant be undone.
+
+LOGOUT
+  > Simply click on the logout button to logout of the web application. You will
+    be redirected back to the login page, and you be forced to log back in before
+    continuing on the website.
+******************************************************************************************
