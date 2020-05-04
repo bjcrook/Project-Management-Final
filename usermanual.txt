@@ -32,10 +32,18 @@
 > The organization can compile HRMS by running the make.ps1 command in a
   powershell window. Or, if access to powershell is not possible, users should be
   able to copy and paste the command inside the make.ps1 file and run it
-  in any terminal.
+  in any terminal. The command is as follows:
+    > go build -o server.exe ./BackEnd/handlers.go ./BackEnd/main.go \
+      ./BackEnd/model.go ./BackEnd/sql.go
+
 > Once compiled, simply run the program by running the server.exe file the
   powershell script creates.
 
+> Alternatively, you can run the program without creating an executable. Simply run
+  the run.ps1 file if you are using power shell. Or else copy and paste the command
+  inside the run.ps1 file. The command is as follows:
+    > go run ./BackEnd/handlers.go ./BackEnd/main.go ./BackEnd/model.go \
+      ./BackEnd/sql.go
 
                                      APPLICATION USE
                                   *********************
